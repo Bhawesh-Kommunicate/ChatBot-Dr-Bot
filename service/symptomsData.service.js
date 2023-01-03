@@ -57,7 +57,36 @@ const DiagonsisData = async(arr,sex,age)=>{
 
 }
 
-
+const storeSymptom = async(data , userId)=>{
+    var data = JSON.stringify({
+        metadata: {
+          symptom: [...data],
+        },  
+      });
+    
+      var config = {
+        method: "post",
+        url: "https://services.kommunicate.io/rest/ws/user/update",
+        headers: {
+          "Api-Key": `${process.env.Kommunicat_Key}`,
+          "Of-User-Id": `${userId}`,
+          "Content-Type": "application/json",
+          Cookie: "JSESSIONID=1D59FBEEB2E7A536228F72549E152FE1",
+        },
+        data: data,
+      };
+    
+      var response = axios(config)
+        .then(function (response) {
+          //   console.log(JSON.stringify(response.data));
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    console.log(response)
+      return response;
+}
 
 const getSymptomsData = async (url, age) => {
 
@@ -88,4 +117,4 @@ const getSymptomsData = async (url, age) => {
   };
   
 
-module.exports = {symptomsData , DiagonsisData , getSymptomsData} 
+module.exports = {symptomsData , DiagonsisData , getSymptomsData , storeSymptom} 
